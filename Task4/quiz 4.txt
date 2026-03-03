@@ -1,0 +1,125 @@
+# 4.4
+
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy.stats
+
+# Generating data for 100000 human lengths, with average height of 185 and standard deviation of 8.
+lengths = np.random.normal(185, 8, 100000)
+
+# Making the sample mean and standard deviation
+miu = np.mean(lengths)
+sigma = np.std(lengths)
+
+print("Sample mean:", miu)
+print("Sample std:", sigma)
+
+# Making the histogram
+plt.figure()
+plt.hist(lengths, bins=40, color="lightblue")
+
+# Plotting the vertical line at the mean and shading the required area
+plt.axvline(miu, 0, 1000, label=f"Mean = {miu:.2f} cm")
+
+left_edge = miu - sigma  
+right_edge = miu + sigma
+
+plt.axvspan(
+    left_edge, right_edge,     
+    alpha=0.4,                 
+    color='green',
+    label=r"1$\sigma$ range"
+)
+
+# The legend with the formulas
+plt.legend(title=f"Sample mean = {miu:.2f} cm \nSample std = {sigma:.2f} cm")
+
+plt.xlabel("Height [cm]")
+plt.ylabel("Number of people")
+plt.title("Normal distribution")
+
+plt.show()
+
+# Using the scipy.stats.norm.cdf for probabilities
+h = 180.0 
+p_h = scipy.stats.norm.cdf(h, loc = miu, scale = sigma) * 100
+print(f"Probablity X is smaller than h = 180 cm is {p_h:.4f}")
+
+lower = 193
+upper = 177
+
+a = scipy.stats.norm.cdf(upper, loc=185, scale=8)
+b = scipy.stats.norm.cdf(lower, loc=185, scale=8)
+
+p_sigma = abs(a - b) * 100
+
+print(f"Probablity for x within one sigma is {p_sigma:.2f}")
+
+
+
+# 4.3
+
+import numpy as np
+
+def who_wins(user, comp):
+
+    if user == comp:
+        return print("It's a tie! Try again! Maybe you will win.")
+        
+    if user == "R":
+        if comp == "S":
+            return print("You win! YAYAYAYAYAYAY")
+        else:
+            return print("You lose. Awh man :(")
+        
+    elif user == "P":
+        if comp == "R":
+            return print("You win! YAYAYAYAYAYAY")
+        else:
+            return print("You lose. Awh man :(")
+        
+    elif user == "S":
+        if comp == "P":
+            return print("You win! YAYAYAYAYAYAY")
+        else:
+            return print("You lose. Awh man :(")
+
+# Starting the game
+print("Let's play Rock Paper Scissors!!!")
+print("Use R for Rock, P for Paper, S for Scissors.")
+print()
+
+user_choice = input("3! 2! 1! Choose now! (R/P/S)? ")
+
+# Making the random computer choice
+options = ["R", "P", "S"]
+comp_choice = np.random.choice(options)
+
+# Checking if the input is valid
+if user_choice not in ["R", "P", "S"]:
+    print("Nuh-uh, try again please! Type R, P, or S.")
+
+else:
+    a = who_wins(user_choice, comp_choice)
+
+
+# 4.1
+
+x = [1, 2, 3, 10]
+y = [10, 20, 30, 40]
+sum1 = []
+
+# Making the zip sum
+for i, j in zip(x, y):    
+    s = i + j             
+    sum1.append(s) 
+
+# Making it a one liner using zip
+sum2 = [i + j for i, j in zip(x, y)]
+
+# Using function map (we need to define the sum function)
+def SUM(x, y):
+    sum3 = x + y
+    return sum3
+ 
+sum3 = list(map(SUM, x, y))
